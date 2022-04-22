@@ -26,7 +26,7 @@ class NetCat:
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     def run(self):
-        if self.args.listen():
+        if self.args.listen:
             self.listen()
         else:
             self.send()
@@ -104,7 +104,7 @@ class NetCat:
 
 
 if __name__ == '__main__':
-    parser = argparse._ArgumentParser(
+    parser = argparse.ArgumentParser(
         description="BHP Net Tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent('''Example:
