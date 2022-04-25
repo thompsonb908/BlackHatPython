@@ -12,10 +12,13 @@ class Server (paramiko.ServerInterface):
         self.event = threading.Event()
 
     def check_channel_request(self, kind: str, chanid: int) -> int:
-        return super().check_channel_request(kind, chanid)
+        if kind == 'session':
+            return paramiko.OPEN_SUCCEEDED
+        return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
     
     def check_auth_password(self, username: str, password: str) -> int:
-        return super().check_auth_password(username, password)
+        if (username == 'Brandon' and password == 'sekret'):
+            return paramiko.AUTH_SUCCESSFUL
 
 if __name__=='__main__':
     server = '192.168.12.129'
@@ -40,7 +43,7 @@ if __name__=='__main__':
     chan = bhSession.accept(20)
     if chan == None:
         print("*** No channel.")
-        sys.exit()
+        sys.exit(1)
 
     print('[+] Authenticated! ')
     print(chan.recv(1024))
