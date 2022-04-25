@@ -48,7 +48,7 @@ class NetCat:
                         break
                 if response:
                     print(response)
-                    buffer = input('> ')
+                    buffer = input('<BHP: #> ')
                     buffer += '\n'
                     self.socket.send(buffer.encode())
         except KeyboardInterrupt:
@@ -90,7 +90,7 @@ class NetCat:
             cmd_buffer = b''
             while True:
                 try:
-                    client_socket.send(b'BHP: #> ')
+                    client_socket.send(b' ')
                     while '\n' not in cmd_buffer.decode():
                         cmd_buffer += client_socket.recv(64)
                     response = execute(cmd_buffer.decode())
