@@ -1,9 +1,3 @@
-from ipaddress import ip_address
-from platform import java_ver
-from tempfile import TemporaryFile
-from tracemalloc import DomainFilter
-from zipfile import is_zipfile
-from paramiko import HostKeys
 from burp import IBurpExtender
 from burp import IContextMenuFactory
 
