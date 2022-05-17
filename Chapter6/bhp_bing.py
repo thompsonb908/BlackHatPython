@@ -12,7 +12,7 @@ import urllib
 API_KEY = "KEY"
 API_HOST = 'api.cognitive.microsoft.com'
 
-class BurpExtender(IBurpExtenderm, IContextMenuFactory):
+class BurpExtender(IBurpExtender, IContextMenuFactory):
     def registerExtenderCallbacks(self, callbacks):
         self._callbacks = callbacks
         self._helpers   = callbacks.getHelpers()
