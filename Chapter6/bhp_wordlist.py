@@ -1,7 +1,3 @@
-from importlib.machinery import SOURCE_SUFFIXES
-from msilib.schema import Icon
-
-from paramiko import HostKeys
 from burp import IBurpExtender
 from burp import IContextMenuFactory
 
