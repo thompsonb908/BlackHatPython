@@ -1,0 +1,3 @@
+[submodule "bhptrojan"]
+	path = bhptrojan
+	url = https://github.com/thompsonb908/bhptrojan
