@@ -31,6 +31,6 @@ if __name__=='__main__':
     user = getpass.getuser()
     password = getpass.getpass()
 
-    ip = input("Enter server IP: ")
-    port = input("Enter port: ")
+    ip = input('Enter server IP: ')
+    port = input('Enter port: ')
     ssh_command(ip, port, user, password, 'ClientConnected')

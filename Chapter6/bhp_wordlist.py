@@ -62,8 +62,7 @@ class BurpExtender(IBurpExtender, IContextMenuFactory):
             http_response = traffic.getResponse()
             if http_response:
                 self.get_words(http_response)
-
-        self.dispaly_wordlist()
+        self.display_wordlist()
         return
     
     def get_words(self, http_response):

@@ -1,7 +1,7 @@
 import queue
 import requests
-import threading
 import sys
+import threading
 
 AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0'
 EXTENSIONS = ['.php', '.bak', '.orig', '.inc']
@@ -38,7 +38,7 @@ def get_words(resume=None):
     return words
 
 
-def dir_bruter(words:queue.Queue):
+def dir_bruter(words):
     headers = {'User-Agent': AGENT}
     while not words.empty():
         url = f'{TARGET}{words.get()}'

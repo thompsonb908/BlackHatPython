@@ -1,4 +1,3 @@
-from asyncio import gather
 import contextlib
 import os
 import queue
@@ -9,7 +8,7 @@ import time
 
 FILTERED = [".jpg", ".gif", ".png", ".css"]
 TARGET = 'https://boodelyboo.com/wordpress'
-threads = 10
+THREADS = 10
 
 answers = queue.Queue()
 web_paths = queue.Queue()
@@ -52,7 +51,7 @@ def test_remote():
 
 def run():
     mythreads = list()
-    for i in range(threads):
+    for i in range(THREADS):
         print(f'Spawning thread {i}')
         t = threading.Thread(target=test_remote)
         mythreads.append(t)

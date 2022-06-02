@@ -12,18 +12,16 @@ def get_process_privileges(pid):
             win32con.PROCESS_QUERY_INFORMATION, False, pid
         )
         htok = win32security.OpenProcessToken(hproc, win32con.TOKEN_QUERY)
-        privs = win32security.GetTokenInformation(
-            htok, win32security.TokenPrivileges
-        )
-        privilges = ''
+        privs = win32security.GetTokenInformation(htok, win32security.TokenPrivileges)
+        privileges = ''
         for priv_id, flags in privs:
             if flags == (win32security.SE_PRIVILEGE_ENABLED |
                         win32security.SE_PRIVILEGE_ENABLED_BY_DEFAULT):
-                        privilges += f'{win32security.LookupPrivilegeDisplayName(None, priv_id)}|'
+                privileges += f'{win32security.LookupPrivilegeName(None, priv_id)}|'
     except Exception:
-        privilges = 'N/A'
-    
-    return privilges
+        privileges = 'N/A'
+
+    return privileges
 
 def log_to_file(message):
     with open('process_monitor_log.csv', 'a') as fd:
@@ -54,6 +52,6 @@ def monitor():
             log_to_file(process_log_message)
         except Exception:
             pass
-    
+
 if __name__ == '__main__':
     monitor()

@@ -5,19 +5,19 @@ import sys
 import threading
 
 CWD = os.path.dirname(os.path.realpath(__file__))
-HOSTKEY = paramiko.RSAKey(filename=os.path.join(CWD, 'test_rsa.key'))
+HOSTKEY = paramiko.RSAKey(filename=os.path.join(CWD, '.test_rsa.key'))
 
 class Server (paramiko.ServerInterface):
     def __init__(self):
         self.event = threading.Event()
 
-    def check_channel_request(self, kind: str, chanid: int) -> int:
+    def check_channel_request(self, kind, chanid):
         if kind == 'session':
             return paramiko.OPEN_SUCCEEDED
         return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
-    
-    def check_auth_password(self, username: str, password: str) -> int:
-        if (username == 'Brandon' and password == 'sekret'):
+
+    def check_auth_password(self, username, password):
+        if (username == 'tim') and (password == 'sekret'):
             return paramiko.AUTH_SUCCESSFUL
 
 if __name__=='__main__':
@@ -28,10 +28,11 @@ if __name__=='__main__':
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind((server, ssh_port))
         sock.listen(100)
-        print("[+] Listening for connection ...")
-        client,addr = sock.accept()
+        print('[+] Listening for connection ...')
+        client, addr = sock.accept()
     except Exception as e:
-        print("[-] Listen failed: " + str(e))
+        print('[-] Listen failed: ' + str(e))
+        sys.exit(1)
     else:
         print('[+] Got a connection!', client, addr)
 
@@ -50,7 +51,7 @@ if __name__=='__main__':
     chan.send('Welcome to bh_ssh')
     try:
         while True:
-            command = input('Enter command: ')
+            command = input("Enter command: ")
             if command != 'exit':
                 chan.send(command)
                 r = chan.recv(8192)
@@ -61,4 +62,4 @@ if __name__=='__main__':
                 bhSession.close()
                 break
     except KeyboardInterrupt:
-        bhSession.close
+        bhSession.close()

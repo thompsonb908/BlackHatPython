@@ -1,12 +1,11 @@
 import argparse
-from ast import arg
 import socket
 import shlex
 import subprocess
 import sys
 import textwrap
 import threading
-from xml.etree.ElementTree import TreeBuilder
+
 
 def execute(cmd):
     cmd = cmd.strip()
@@ -48,23 +47,22 @@ class NetCat:
                         break
                 if response:
                     print(response)
-                    buffer = input('<BHP: #> ')
+                    buffer = input('> ')
                     buffer += '\n'
                     self.socket.send(buffer.encode())
         except KeyboardInterrupt:
-            print("User terminated.")
+            print('User terminated.')
             self.socket.close()
             sys.exit()
 
     def listen(self):
+        print('listening')
         self.socket.bind((self.args.target, self.args.port))
         self.socket.listen(5)
 
         while True:
             client_socket, _ = self.socket.accept()
-            client_thread = threading.Thread(
-                target=self.handle, args=(client_socket,)
-            )
+            client_thread = threading.Thread(target=self.handle, args=(client_socket,))
             client_thread.start()
     
     def handle(self, client_socket):
@@ -78,6 +76,7 @@ class NetCat:
                 data = client_socket.recv(4096)
                 if data:
                     file_buffer += data
+                    print(len(file_buffer))
                 else:
                     break
             
@@ -90,7 +89,7 @@ class NetCat:
             cmd_buffer = b''
             while True:
                 try:
-                    client_socket.send(b' ')
+                    client_socket.send(b' #> ')
                     while '\n' not in cmd_buffer.decode():
                         cmd_buffer += client_socket.recv(64)
                     response = execute(cmd_buffer.decode())
@@ -105,7 +104,7 @@ class NetCat:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description="BHP Net Tool",
+        description='BHP Net Tool',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent('''Example:
         netcat.py -t 192.168.1.108 -p 5555 -l -c # command shell
